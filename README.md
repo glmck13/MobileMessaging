@@ -39,6 +39,7 @@ cat - >/etc/dbus-1/system-local.conf  <<EOF
     </policy>
 </busconfig>
 EOF
+```
 
 # sxmo tools
 As I mentioned above, these tools run as an ordinary user.  In my case, I have a user “gerry” which is configured to autologin at boot.  The sxmo files are installed under ~/opt/sxmo.  Be sure to set execute permission on the files after copying them. 
