@@ -43,4 +43,4 @@ EOF
 # sxmo tools
 As I mentioned above, these tools run as an ordinary user.  In my case, I have a user “gerry” which is configured to autologin at boot.  The sxmo files are installed under ~/opt/sxmo.  Be sure to set execute permission on the files after copying them. 
 
-The easiest way I found to launch the sxmo.sh script, is to configure it as a Startup Application.  Just click on “Startup Applications” from your Ubuntu desktop, and add an entry for sxmo.sh.
+The easiest way I found to launch the sxmo.sh script is to configure it as a Startup Application.  Just click on “Startup Applications” from your Ubuntu desktop, and add an entry for sxmo.sh.
