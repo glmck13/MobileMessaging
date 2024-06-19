@@ -1,5 +1,5 @@
-# DIY-SMS-MMS
-A browser-based client and collection of back-end utilities for sending/receiving SMS/MMS messages on Linux using a USB cellular modem
+# MobileMessaging
+A collection of utilities and a browser-based client for sending/receiving SMS/MMS messages on Linux using a USB cellular modem
 <p><img src="screenshot.png" width="400"></p>
 
 # Background
