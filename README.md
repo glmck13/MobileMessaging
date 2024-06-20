@@ -29,7 +29,7 @@ ModemManager will by default assign a higher route metric on the wwan interface 
 
 When configuring mmsd-tng, follow the instructions posted under "General Configuration" and "Configuring the Modem Manager Plugin" on Chris Talbot's site.  You'll find the appropriate APN, MMSC, and proxy settings on [Red Pocket's SIM activation page](https://help.redpocket.com/setup-your-activated-gsma-sim-card).
 
-The sxmo utilities as well as mmsd-tng run as an ordinary user (not root), so they make use of the D-Bus “session” bus.  ModemManager, on the other hand, runs as root and resides on the D-Bus “system” bus.  In order for sxmo to talk to ModemManager, I executed the following as root (I’m sure there are more proper ways for granting privilege, but this was an easy hack!):
+The sxmo utilities as well as mmsd-tng run as an ordinary user (not root), so they make use of the D-Bus “session” bus.  ModemManager, on the other hand, runs as root and resides on the D-Bus “system” bus.  In order for sxmo to talk to ModemManager, I did as follows (I’m sure there are more proper ways for granting privilege, but this was an easy hack!).  Execute these commands as root:
 ```
 chmod u+s /usr/bin/mmcli
 
