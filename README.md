@@ -10,7 +10,7 @@ So I set out to send/receive text messages through the cellular network directly
 <p><img src="arch.png" width="600"></p>
 
 # USB modem and cellular plan
-My solution uses a [Quectel EC25-AF(D)]( https://www.quectel.com/product/lte-ec25-series/), since that’s the technology used in the PinePhone.  Before purchasing a modem (I got [this one]( https://www.aliexpress.us/item/3256803392917668.html?gatewayAdapt=glo2usa) from AliExpress for $50) I confirmed the device is supported by the U.S. mobile operators:
+My solution uses a [Quectel EC25-AF(D)]( https://www.quectel.com/product/lte-ec25-series) modem, since that’s the technology used in the PinePhone.  Before purchasing a modem (I got [this one]( https://www.aliexpress.us/item/3256803392917668.html?gatewayAdapt=glo2usa) from AliExpress for $50) I confirmed the device is supported by the U.S. mobile operators:
 
 + [AT&T approved devices](https://iotdevices.att.com/certified-devices.aspx)
 + [Verizon approved devices](https://opendevelopment.verizonwireless.com/design-and-build/approved-modules)
