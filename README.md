@@ -25,6 +25,8 @@ apt install ksh pnc
 ```
 Instructions for configuring the modem can be found on Ubuntu’s [How-to page]( https://ubuntu.com/core/docs/networkmanager/configure-cellular-connections).  Note that the standard Ubuntu/Debian release already includes ModemManager, so there’s no need to install the snap (in fact, it’s better to use the .deb package vs. the snap since you’ll run into some D-Bus permission issues if you install the snap).  As I recall mmsd-tng also comes included in the standard distribution, but if that’s not the case, you can simply apt install it as root (again, install the package, not the snap).  
 
+ModemManager will by default assign a higher route metric on the wwan interface so this connection doesn't function as your default route to the Internet.  This is preferred so as not to burn through all of the data in your mobile data plan.  MobileManager will also enbale IPv6 on the wwan link.  **Be sure to check**, however, that IPv6 is enabled on your primary route.  If not, the kernel will route traffic to any IPv6 sites through your mobile interface, rehardless of the metric value.
+
 The sxmo utilities as well as mmsd-tng run as an ordinary user (not root), so they make use of the D-Bus “session” bus.  ModemManger, on the other hand, runs as root and resides on the D-Bus “system” bus.  In order for sxmo to talk to ModemManager, I executed the following as root (I’m sure there are more proper ways for granting privilege, but this was an easy hack!):
 ```
 chmod u+s /usr/bin/mmcli
