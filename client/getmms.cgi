@@ -120,7 +120,7 @@ do
 		else
 			chat="theirChat"
 		fi
-		print "<button data-tooltip=\"${from}${tstamp}\" class=\"${chat} ${tiploc}\">${content}</button><br>"
+		print "<button data-tooltip=\"${from}${tstamp}\" class=\"${chat} ${tiploc}\" onclick=\"cmdlog.innerHTML='${content//\'/}'\">${content}</button><br>"
 
 	elif [[ "$what" == *image* ]]; then
 		print -- "<img title=\"${from}${tstamp}\" style=\"border-radius: 5%;\" src=\"${PWD#$DOCUMENT_ROOT}/$f\" width=200><br><br>"
