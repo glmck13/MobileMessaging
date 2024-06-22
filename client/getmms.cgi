@@ -79,7 +79,7 @@ do
 	side=${f%%:*} ext=${f##*.}
 
 	if [ "$ext" = "txt" ]; then
-	#	content=$(fold -s -w40 "$f" | sed -e "s/$/<br>/"); content=${content%<br>}
+		#content=$(fold -s -w40 "$f" | sed -e "s/$/<br>/"); content=${content%<br>}
 		content=$(<$f)
 	fi
 
