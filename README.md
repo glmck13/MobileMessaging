@@ -24,6 +24,9 @@ I’m running the latest LTS release of Ubuntu (24.04/noble), with the following
 apt install ksh jq pnc
 ```
 Instructions for configuring the modem can be found on Ubuntu’s [How-to page]( https://ubuntu.com/core/docs/networkmanager/configure-cellular-connections).  Note that the standard Ubuntu/Debian release already includes ModemManager, so there’s no need to install the snap (in fact, it’s better to use the .deb package vs. the snap since you’ll run into some D-Bus permission issues if you install the snap).  As I recall mmsd-tng also comes included in the standard distribution, but if that’s not the case, you can simply apt install it as root (again, install the package, not the snap). If things aren't working, just try Google-ing your problem.  There's lot's of material out there on Debian's cellular modem stack.  Here's a [good reference](https://junyelee.blogspot.com/2021/03/linux-mobile-interface-broadband-model.html) to read over as well.
+```
+nmcli c add type gsm ifname '*' con-name RedPocket apn ERESELLER
+```
 
 ModemManager will by default assign a higher route metric on the wwan interface so this connection doesn't function as your default route to the Internet.  This is preferred so as not to burn through all of the data in your mobile data plan.  MobileManager will also enbale IPv6 on the wwan link.  **Be sure to check**, however, that IPv6 is enabled on your primary route.  If not, the kernel will route traffic to any IPv6 sites through your mobile interface, regardless of the metric value.  
 
