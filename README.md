@@ -25,7 +25,7 @@ apt install ksh jq pnc mmsd-tng
 ```
 The standard Ubuntu/Debian release already includes ModemManager, so there’s no need to install the snap (in fact, it’s better to use the .deb package vs. the snap since you’ll run into some D-Bus permission issues if you install the snap).  I was fortunate to have chosen the most current Ubuntu distribution, since it contains recent releases of ModemManger (1.23.4-0ubuntu2) and mmsd-tng (2.6.0-2build1).  These packages are still under active development, and I rely on features that have been introduced in just the past few months.  
 
-Instructions for configuring the modem can be found on Ubuntu’s [How-to page]( https://ubuntu.com/core/docs/networkmanager/configure-cellular-connections).  There's lot's of other material out there on Debian's cellular modem stack.  Here's a [good reference](https://junyelee.blogspot.com/2021/03/linux-mobile-interface-broadband-model.html) to read over as well.  Here's the specific nmcli command I used to configure the modem on my desktop. Afterwards you can run the mmcli and ifconfig commands to verify the modem has been set up properly:
+Instructions for configuring the modem can be found on Ubuntu’s [How-to page]( https://ubuntu.com/core/docs/networkmanager/configure-cellular-connections).  There's lots of other material out there on Debian's cellular modem stack, including [this blog post](https://junyelee.blogspot.com/2021/03/linux-mobile-interface-broadband-model.html) I encountered during my investigations.  The specific nmcli command I used to configure my modem is listed below, as are a couple mmcli and ifconfig commands you can run to verify everything was set up properly:
 ```
 nmcli c add type gsm ifname '*' con-name RedPocket apn ERESELLER
 mmcli  -m any
