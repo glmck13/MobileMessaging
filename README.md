@@ -28,8 +28,8 @@ The standard Ubuntu/Debian release already includes ModemManager, so there’s n
 Instructions for configuring the modem can be found on Ubuntu’s [How-to page]( https://ubuntu.com/core/docs/networkmanager/configure-cellular-connections).  There's lots of other material out there on Debian's cellular modem stack, including [this blog post](https://junyelee.blogspot.com/2021/03/linux-mobile-interface-broadband-model.html) I encountered during my investigations.  The specific nmcli command I used to configure my modem is listed below, as are a couple mmcli and ifconfig commands you can run to verify everything was set up properly:
 ```
 nmcli c add type gsm ifname '*' con-name RedPocket apn ERESELLER
-mmcli  -m any
-ifconfig -a
+mmcli -m any # verify status is 'connected'
+ifconfig -a # verify wwan0 interface is 'up'
 ```
 ModemManager will establish IPv4 and IPv6 connections on the carrier's APN.  The software sets the route metric on the wwan interface higher than your other interfaces so the modem doesn't function as your default route to the Internet.  This is preferred so you don't burn through all of the data in your mobile data plan.  **Be sure to check**, however, that IPv6 is enabled on your machine's primary interface (Ethernet or Wifi).  If not, the kernel will route traffic to any IPv6 sites through your mobile interface, regardless of the assigned route metric. When configuring mmsd-tng, follow the instructions posted under "General Configuration" and "Configuring the Modem Manager Plugin" on Chris Talbot's site.  You'll find the appropriate APN, MMSC, and proxy settings on [Red Pocket's SIM activation page](https://help.redpocket.com/setup-your-activated-gsma-sim-card).  Here's the ~/.mms/modemmanager/mms file I'm using:
 ```
