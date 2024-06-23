@@ -67,47 +67,29 @@ EOF
 As I mentioned above, these tools run as an ordinary user.  In my case, I have a user “gerry” which is configured to autologin at boot time.  The sxmo files are installed under ~/opt/sxmo.  Be sure to set execute permission on the files after copying them. 
 
 There are two environment variables you need to configure within sxmo.sh for your particular installation:
-+ **SXMO_MYHTTP** This is the base URL for the Python web server on your Ubuntu host, e.g. http://ubuntu.lan:8000.  The Python server implements an API modeled after Flowroute's implementation, as well as a file retrieval mechanism which the software on the Raspberry Pi uses to send/receive messages. The Python server uses ordinary HTTP not HTTPS, since all communication with the sxmo environment will take place inside your internal LAN.  Technically the software on the Raspberry Pi (Apache & accompanying CGI scripts) can be hosted on the Ubuntu server, but I decided to separate these since I already had a Pi running FreePBX & Asterisk to support voice calls over my VoIP line (take a look at: [PBX-My-Home](https://github.com/glmck13/PBX-My-Home) ).  In addition, my Raspberry Pi is firewalled off and Internet-accessible, and I did not want to do the same for my Ubuntu host.
++ **SXMO_MYHTTP** This is the base URL for the Python web server on your Ubuntu host, e.g. http://ubuntu.lan:8000.  The Python server implements an API modeled after Flowroute's implementation, as well as a file retrieval mechanism which the software on the Raspberry Pi uses to send/receive messages. The Python server uses ordinary HTTP not HTTPS, since all communication with the sxmo environment will take place inside your internal LAN.  Technically the software on the Raspberry Pi (Apache & accompanying CGI scripts) can be hosted on the Ubuntu server, but I decided to separate these since I already had a Pi running FreePBX & Asterisk to support voice calls over my VoIP line (take a look at: [PBX-My-Home](https://github.com/glmck13/PBX-My-Home)).  In addition, my Raspberry Pi is firewalled off and Internet-accessible, and I did not want to do the same for my Ubuntu host.
 
 + **SXMO_WEBHOOK** This is the URL of the CGI function on the Raspberry Pi which the sxmo software invokes whenever it receives an SMS/MMS from the modem stack, e.g. https://pbxmyhome.lan/$SXMO_MYNUM/rcvmms.cgi
 
 The easiest way I found to launch the sxmo.sh script is to configure it as a Startup Application.  Just click on “Startup Applications” from your Ubuntu desktop, and add an entry for sxmo.sh.  
 
 # Raspberry Pi installation
-The client app can be installed on any host running an Apache web server with https configured, since the Flowroute API sends/receives messages using HTTPS.  You can install the app on the PBX server if you'd like, but if so, you'll first have to register a domain name for your site, and obtain an SSL certificate.  There are a variety of ways to accomplish this, but you'll likely have to shell out a few dollars to register a domain name.  Many domain providers also give you the option to purchase a certificate for an additional fee, or you can get a cert for free using [Let's Encrypt](https://letsencrypt.org/) and their [Cerbot utility](https://certbot.eff.org/).
+The messaging client consists of a back-end collection of CGI scripts hosted by an Apache server, and some front-end html, css, and javascript running inside a browser.  The Apache server needs to have https configured since javascript 'fetch' calls are made by the browser code, and 'fetch' prefers https.  Fortunately there's no need to acquire a public cert for your site to use the messaging software, assuming you only want to make use of the capability from inside your own network.  However, if you want to access your messaging client from outside of your LAN when you're on the go, you'll eventually need a cert.  In this case the cert won't be used for Apache, but to configure a home VPN.  Instructions for setting up a VPN can be found [here]( https://github.com/glmck13/MobilePi).  
 
-Once your site is https-enabled, the rest of the installation is pretty simple. The instuctions below assume you're installing the app on your PBX server.  Execute these as root:
-+ Install the following additional packages:
+Once your site is https-enabled, the rest of the installation is pretty simple. First, execute the following as root:
 ```
 apt install ksh uuid-runtime gridsite-clients
-```
-+ Enable CGI processing on your Apache server:
-```
 a2enmod cgid
 sed -i -e "s/^#\([[:space:]]*AddHandler[[:space:]]*cgi-script[[:space:]]*\.cgi\)$/\1/" /etc/apache2/mods-available/mime.conf
 sed -i -e "s/^\([[:space:]]*Options Indexes FollowSymLinks\)$/\1 ExecCGI/" /etc/apache2/apache2.conf
 ```
-+ Prevent FreePBX from disabling execute permissions on the app:
-```
-cat - <<EOF >/etc/asterisk/freepbx_chown.conf
-[blacklist]
-directory = /var/www/html/cgi
-directory = /var/www/html/msgapp
-```
-+ Grant Flowroute's SMS/MMS messaging server access to your PBX by adding the following statement to your /etc/iptables/rules.v4 file anywhere before the final COMMIT:
-```
--A INPUT -s 52.88.246.140 -j ACCEPT
-```
-+ Install the "msgapp" directory and its contents located in this repository directly under /var/www/html on your server. then execute:
+Next, install the contents of the 'client' directory located in this repository directly under /var/www/html/**your_mobile_number** on the server then execute:
 ```
 chmod +x *.cgi *sh *.py
 mv htaccess .htaccess
 ```
-+ Edit the two getenv files and populate your Flowroute credentials as well as the msgapp URL for your site.  Set the A2P variable to whatever name you want to associate with your DID within A2P authorization messages.
+Lastlty, edit the two getenv files and populate your Flowroute credentials as well as the msgapp URL for your site.  Set the A2P variable to whatever name you want to associate with your DID within A2P authorization messages.
 
-+ Login to your Flowroute account, select your DID, then:
-  + Choose a DID Action &rarr; Enable Messaging, Apply Action
-  + Choose a DID Action &rarr; Set Callback URL, Apply Action.  On the next screen enter the https URL for your mspapp in the "Callback URL" box, check all of the SM, MMS, and DLR boxes, and then click Set Callback URL.
 
 That's it!
 
