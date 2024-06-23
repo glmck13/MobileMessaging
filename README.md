@@ -21,17 +21,32 @@ As regards a mobile data plan, I went with Red Pocket since they [offer service 
 # Ubuntu installation
 I’m running the latest LTS release of Ubuntu (24.04/noble), with the following additional packages:
 ```
-apt install ksh jq pnc
+apt install ksh jq pnc mmsd-tng
 ```
-Instructions for configuring the modem can be found on Ubuntu’s [How-to page]( https://ubuntu.com/core/docs/networkmanager/configure-cellular-connections).  Note that the standard Ubuntu/Debian release already includes ModemManager, so there’s no need to install the snap (in fact, it’s better to use the .deb package vs. the snap since you’ll run into some D-Bus permission issues if you install the snap).  As I recall mmsd-tng also comes included in the standard distribution, but if that’s not the case, you can simply apt install it as root (again, install the package, not the snap). If things aren't working, just try Google-ing your problem.  There's lot's of material out there on Debian's cellular modem stack.  Here's a [good reference](https://junyelee.blogspot.com/2021/03/linux-mobile-interface-broadband-model.html) to read over as well.
+The standard Ubuntu/Debian release already includes ModemManager, so there’s no need to install the snap (in fact, it’s better to use the .deb package vs. the snap since you’ll run into some D-Bus permission issues if you install the snap).  I was fortunate to have chosen the most current Ubuntu distribution, since it contains recent releases of ModemManger (1.23.4-0ubuntu2) and mmsd-tng (2.6.0-2build1).  These packages are still under active development, and I rely on features that have been introduced in just the past few months.  
+
+Instructions for configuring the modem can be found on Ubuntu’s [How-to page]( https://ubuntu.com/core/docs/networkmanager/configure-cellular-connections).  There's lot's of other material out there on Debian's cellular modem stack.  Here's a [good reference](https://junyelee.blogspot.com/2021/03/linux-mobile-interface-broadband-model.html) to read over as well.  Here's the specific command I used to configure the modem on my desktop:
 ```
 nmcli c add type gsm ifname '*' con-name RedPocket apn ERESELLER
 ```
+ModemManager will establish IPv4 and IPv6 connections on the carrier's APN.  The software sets the route metric on the wwan interface higher than your other interfaces so the modem doesn't function as your default route to the Internet.  This is preferred so you don't burn through all of the data in your mobile data plan.  **Be sure to check**, however, that IPv6 is enabled on your machine's primary interface (Ethernet or Wifi).  If not, the kernel will route traffic to any IPv6 sites through your mobile interface, regardless of the assigned route metric. When configuring mmsd-tng, follow the instructions posted under "General Configuration" and "Configuring the Modem Manager Plugin" on Chris Talbot's site.  You'll find the appropriate APN, MMSC, and proxy settings on [Red Pocket's SIM activation page](https://help.redpocket.com/setup-your-activated-gsma-sim-card).  Here's the ~/.mms/modemmanager/mms file I'm using:
+```
+[Modem Manager]
+CarrierMMSC=http://mmsc.mobile.att.net/
+MMS_APN=ERESELLER
+CarrierMMSProxy=http://proxy.mobile.att.net/
+DefaultModemNumber=NULL
+AutoProcessOnConnection=true
+AutoProcessSMSWAP=true
+IMSI=xxxxxxxxxxxxxxx
 
-ModemManager will by default assign a higher route metric on the wwan interface so this connection doesn't function as your default route to the Internet.  This is preferred so as not to burn through all of the data in your mobile data plan.  MobileManager will also enbale IPv6 on the wwan link.  **Be sure to check**, however, that IPv6 is enabled on your primary route.  If not, the kernel will route traffic to any IPv6 sites through your mobile interface, regardless of the metric value.  
-
-When configuring mmsd-tng, follow the instructions posted under "General Configuration" and "Configuring the Modem Manager Plugin" on Chris Talbot's site.  You'll find the appropriate APN, MMSC, and proxy settings on [Red Pocket's SIM activation page](https://help.redpocket.com/setup-your-activated-gsma-sim-card).
-
+[Settings]
+UseDeliveryReports=false
+TotalMaxAttachmentSize=1100000
+MaxAttachments=25
+AutoCreateSMIL=true
+ForceCAres=true
+```
 The sxmo utilities as well as mmsd-tng run as an ordinary user (not root), so they make use of the D-Bus “session” bus.  ModemManager, on the other hand, runs as root and resides on the D-Bus “system” bus.  In order for sxmo to talk to ModemManager, I did as follows (I’m sure there are more proper ways for granting privilege, but this was an easy hack!).  Execute these commands as root:
 ```
 chmod u+s /usr/bin/mmcli
