@@ -93,7 +93,5 @@ Lastlty, edit the two getenv files and populate your local settings.  Variables 
 + **MSGAPP_BACKEND**  Leave this set to SXMO.
 + **MSGAPP_SENDAPI**  This should match what you specified for SXMO_MYHTTP, appending '/cgi-bin/sxmo_sendapi.py' at the end.
 + **MSGAPP_DID** This is your mobile number, including the "+1" country code prefix.
-The other settings are only used if the backend is Flowroute, and 
 
 That's it!
-
