@@ -74,7 +74,7 @@ There are two environment variables you need to configure within sxmo.sh for you
 The easiest way I found to launch the sxmo.sh script is to configure it as a Startup Application.  Just click on “Startup Applications” from your Ubuntu desktop, and add an entry for sxmo.sh.  
 
 # Raspberry Pi installation
-The messaging client consists of a back-end collection of CGI scripts hosted by an Apache server, and some front-end html, css, and javascript running inside a browser.  The Apache server needs to have https configured since javascript 'fetch' calls are made by the browser code, and 'fetch' prefers https.  Fortunately there's no need to acquire a public cert for your site to use the messaging software, assuming you only want to make use of the capability from inside your own network.  However, if you want to access your messaging client from outside of your LAN when you're on the go, you'll eventually need a cert.  In this case the cert won't be used for Apache, but to configure a home VPN.  Instructions for setting up a VPN can be found [here]( https://github.com/glmck13/MobilePi).  
+The messaging client consists of a back-end collection of CGI scripts hosted by an Apache server, and some front-end html, css, and javascript running inside a browser.  The Apache server needs to have https configured since javascript 'fetch' calls are made by the browser code, and 'fetch' prefers https.  Fortunately, there's no need to acquire a public cert for your site to use the messaging software, assuming you only want to make use of the capability from inside your own network.  However, if you want to access your messaging client from outside of your LAN when you're on the go, you'll eventually need a cert.  In this case the cert won't be used for Apache, but to configure a home VPN.  Instructions for setting up a VPN can be found [here]( https://github.com/glmck13/MobilePi).  
 
 Once your site is https-enabled, the rest of the installation is pretty simple. First, execute the following as root:
 ```
@@ -88,8 +88,12 @@ Next, install the contents of the 'client' directory located in this repository 
 chmod +x *.cgi *sh *.py
 mv htaccess .htaccess
 ```
-Lastlty, edit the two getenv files and populate your Flowroute credentials as well as the msgapp URL for your site.  Set the A2P variable to whatever name you want to associate with your DID within A2P authorization messages.
-
+Lastlty, edit the two getenv files and populate your local settings.  Variables other than those specified below only apply for a Flowroute backend, and are ignored otherwise.
++ **msgapp_server**  This should match what you specified for SXMO_WEBHOOK, stripping off the '/rcvmms.cgi' at the end.
++ **MSGAPP_BACKEND**  Leave this set to SXMO.
++ **MSGAPP_SENDAPI**  This should match what you specified for SXMO_MYHTTP, appending '/cgi-bin/sxmo_sendapi.py' at the end.
++ **MSGAPP_DID** This is your mobile number, including the "+1" country code prefix.
+The other settings are only used if the backend is Flowroute, and 
 
 That's it!
 
