@@ -66,15 +66,15 @@ EOF
 # sxmo tools
 As I mentioned above, these tools run as an ordinary user.  In my case, I have a user “gerry” which is configured to autologin at boot time.  The sxmo files are installed under ~/opt/sxmo.  Be sure to set execute permission on the files after copying them. 
 
-The easiest way I found to launch the sxmo.sh script is to configure it as a Startup Application.  Just click on “Startup Applications” from your Ubuntu desktop, and add an entry for sxmo.sh.  
-
 There are two environment variables you need to configure within sxmo.sh for your particular installation:
 + **SXMO_MYHTTP** This is the base URL for the Python web server on your Ubuntu host, e.g. http://ubuntu.lan:8000.  The Python server implements an API modeled after Flowroute's implementation, as well as a file retrieval mechanism which the software on the Raspberry Pi uses to send/receive messages. The Python server uses ordinary HTTP not HTTPS, since all communication with the sxmo environment will take place inside your internal LAN.  Technically the software on the Raspberry Pi (Apache & accompanying CGI scripts) can be hosted on the Ubuntu server, but I decided to separate these since I already had a Pi running FreePBX & Asterisk to support voice calls over my VoIP line (take a look at: [PBX-My-Home](https://github.com/glmck13/PBX-My-Home) ).  In addition, my Raspberry Pi is firewalled off and Internet-accessible, and I did not want to do the same for my Ubuntu host.
 
-+ **SXMO_WEBHOOK** This is the URL of the CGI function on the Raspberry Pi which the sxmo software invokes whenever it receives an SMS/MMS from the modem stack, e.g. https://pbxmyhome.lan/$SXMO_MYNUM/rcvmms.cgi  
++ **SXMO_WEBHOOK** This is the URL of the CGI function on the Raspberry Pi which the sxmo software invokes whenever it receives an SMS/MMS from the modem stack, e.g. https://pbxmyhome.lan/$SXMO_MYNUM/rcvmms.cgi
+
+The easiest way I found to launch the sxmo.sh script is to configure it as a Startup Application.  Just click on “Startup Applications” from your Ubuntu desktop, and add an entry for sxmo.sh.  
 
 # Raspberry Pi installation
-The app can be installed on any host running an Apache web server with https configured, since the Flowroute API sends/receives messages using HTTPS.  You can install the app on the PBX server if you'd like, but if so, you'll first have to register a domain name for your site, and obtain an SSL certificate.  There are a variety of ways to accomplish this, but you'll likely have to shell out a few dollars to register a domain name.  Many domain providers also give you the option to purchase a certificate for an additional fee, or you can get a cert for free using [Let's Encrypt](https://letsencrypt.org/) and their [Cerbot utility](https://certbot.eff.org/).
+The client app can be installed on any host running an Apache web server with https configured, since the Flowroute API sends/receives messages using HTTPS.  You can install the app on the PBX server if you'd like, but if so, you'll first have to register a domain name for your site, and obtain an SSL certificate.  There are a variety of ways to accomplish this, but you'll likely have to shell out a few dollars to register a domain name.  Many domain providers also give you the option to purchase a certificate for an additional fee, or you can get a cert for free using [Let's Encrypt](https://letsencrypt.org/) and their [Cerbot utility](https://certbot.eff.org/).
 
 Once your site is https-enabled, the rest of the installation is pretty simple. The instuctions below assume you're installing the app on your PBX server.  Execute these as root:
 + Install the following additional packages:
