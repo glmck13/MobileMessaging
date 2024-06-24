@@ -16,7 +16,7 @@ My solution uses a [Quectel EC25-AF(D)](https://www.quectel.com/product/lte-ec25
 + [Verizon approved devices](https://opendevelopment.verizonwireless.com/design-and-build/approved-modules)
 + [T-Mobile approved devices](https://wholesale.t-mobile.com/iot/modules-chipsets-devices/)
 
-As regards a mobile data plan, I went with Red Pocket since they [offer service on all three carriers](https://www.redpocket.com/coverage).  The APN settings needed to set up Modem Manager and mmsd-tng are [documented here](https://help.redpocket.com/setup-your-activated-gsma-sim-card) 
+As regards a mobile data plan, I went with Red Pocket since they [offer service on all three carriers](https://www.redpocket.com/coverage).  The APN settings needed to set up my Modem Manager and mmsd-tng are [documented here](https://help.redpocket.com/setup-your-activated-gsma-sim-card).  
 
 # Ubuntu installation
 I’m running the latest LTS release of Ubuntu (24.04/noble), with the following additional packages:
@@ -25,7 +25,7 @@ apt install ksh jq pnc mmsd-tng
 ```
 The standard Ubuntu/Debian release already includes ModemManager, so there’s no need to install the snap (in fact, it’s better to use the .deb package vs. the snap since you’ll run into some D-Bus permission issues if you install the snap).  I was fortunate to have chosen the most current Ubuntu distribution, since it contains recent releases of ModemManger (1.23.4-0ubuntu2) and mmsd-tng (2.6.0-2build1).  These packages are still under active development, and I rely on features that have been introduced in just the past few months.  
 
-Instructions for configuring the modem can be found on Ubuntu’s [How-to page]( https://ubuntu.com/core/docs/networkmanager/configure-cellular-connections).  There's lots of other material out there on Debian's cellular modem stack, including [this blog post](https://junyelee.blogspot.com/2021/03/linux-mobile-interface-broadband-model.html) I encountered during my investigations.  The specific nmcli command I used to configure my modem is listed below, as are a couple mmcli and ifconfig commands you can run to verify everything was set up properly:
+Instructions for configuring the modem can be found on Ubuntu’s [How-to page]( https://ubuntu.com/core/docs/networkmanager/configure-cellular-connections).  There's lots of other material out there on Debian's cellular modem stack, including [this blog post](https://junyelee.blogspot.com/2021/03/linux-mobile-interface-broadband-model.html) I encountered during my investigations.  The specific nmcli command I used to configure my modem is listed below, as are a couple mmcli and ifconfig commands you can run to verify everything has been set up properly:
 ```
 nmcli c add type gsm ifname '*' con-name RedPocket apn ERESELLER
 mmcli -m any # verify status is 'connected'
@@ -49,7 +49,7 @@ MaxAttachments=25
 AutoCreateSMIL=true
 ForceCAres=true
 ```
-The sxmo utilities as well as mmsd-tng run as an ordinary user (not root), so they make use of the D-Bus “session” bus.  ModemManager, on the other hand, runs as root and resides on the D-Bus “system” bus.  In order for sxmo to talk to ModemManager, I did as follows (I’m sure there are more proper ways for granting privilege, but this was an easy hack!).  Execute these commands as root:
+The sxmo utilities as well as mmsd-tng run as an ordinary user (not root), so they make use of the D-Bus “session” bus.  ModemManager, on the other hand, runs as root and resides on the D-Bus “system” bus.  In order for sxmo to talk to ModemManager, I implemented this simple hack (there probably are better ways of doing this, but it gets the job done!).  Execute these commands as root:
 ```
 chmod u+s /usr/bin/mmcli
 
