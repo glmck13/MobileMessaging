@@ -90,7 +90,7 @@ Next, install the contents of the 'client' directory located in this repository 
 chmod +x *.cgi *sh *.py
 mv htaccess .htaccess
 ```
-Lastlty, edit the two getenv files and populate your local settings.  Variables other than those specified below only apply for a Flowroute backend, and are ignored otherwise.
+Lastlty, edit the two getenv files and populate your local settings.  Variables other than those specified below only apply for a Flowroute backend, and are otherwise ignored.
 + **msgapp_server**  This should match what you specified for SXMO_WEBHOOK, stripping off the '/rcvmms.cgi' at the end.
 + **MSGAPP_BACKEND**  Leave this set to SXMO.
 + **MSGAPP_SENDAPI**  This should match what you specified for SXMO_MYHTTP, appending '/cgi-bin/sxmo_sendapi.py' at the end.
