@@ -101,8 +101,8 @@ do
 		fi
 		if [[ "$f" == @* ]]; then
 			:
-		#elif [ "${LOCAL_DID}" = "$(<$f/.did)" ]; then
-		#	:
+		elif [ "${LOCAL_DID}" = "$(<$f/.did)" ]; then
+			:
 		else
 			display=${Links[$f]}
 			if [ "$display" ]; then
