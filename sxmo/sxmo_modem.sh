@@ -18,8 +18,9 @@ cleanupnumber() {
 }
 
 checkfornewtexts() {
-	exec 3<> "${XDG_RUNTIME_DIR:-$HOME}/sxmo_modem.checkfornewtexts.lock"
+	exec 3<> "${SXMO_TMPDIR}/checkfornewtexts.lock"
 	flock -x 3
+ 
 	TEXTIDS="$(
 		mmcli -m any --messaging-list-sms |
 		grep -Eo '/SMS/[0-9]+ \(received\)' |
