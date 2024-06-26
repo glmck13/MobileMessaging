@@ -168,7 +168,6 @@ do
 	}
 	}
 	EOF
-	[ "$TEST_MODE" != "on" ] && sleep 1s
 done
 
 cd - >/dev/null
