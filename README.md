@@ -85,7 +85,7 @@ The messaging client consists of back-end CGI scripts hosted on an Apache server
 
 Once your site is https-enabled, the rest of the installation is pretty simple. First, execute the following as root:
 ```
-apt install ksh uuid-runtime gridsite-clients
+apt install ksh uuid-runtime gridsite-clients graphicsmagick-imagemagick-compat
 a2enmod cgid
 sed -i -e "s/^#\([[:space:]]*AddHandler[[:space:]]*cgi-script[[:space:]]*\.cgi\)$/\1/" /etc/apache2/mods-available/mime.conf
 sed -i -e "s/^\([[:space:]]*Options Indexes FollowSymLinks\)$/\1 ExecCGI/" /etc/apache2/apache2.conf
