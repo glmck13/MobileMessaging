@@ -26,7 +26,7 @@ As regards a mobile data plan, I went with Red Pocket since they [offer service 
 # Ubuntu installation
 I’m running the latest LTS release of Ubuntu (24.04/noble), with the following additional packages:
 ```
-apt install ksh jq pnc mmsd-tng
+apt install ksh curl jq pnc mmsd-tng
 ```
 The standard Ubuntu/Debian release already includes ModemManager, so there’s no need to install the snap (in fact, it’s better to use the .deb package vs. the snap since you’ll run into some D-Bus permission issues if you install the snap).  I was fortunate to have chosen the most current Ubuntu distribution, since it contains recent releases of ModemManger (1.23.4-0ubuntu2) and mmsd-tng (2.6.0-2build1).  These packages are still under active development, and I rely on features that have been introduced in just the past few months.  
 
