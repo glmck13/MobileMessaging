@@ -88,7 +88,7 @@ Once your site is https-enabled, the rest of the installation is pretty simple. 
 apt install ksh uuid-runtime gridsite-clients graphicsmagick-imagemagick-compat
 a2enmod cgid
 sed -i -e "s/^#\([[:space:]]*AddHandler[[:space:]]*cgi-script[[:space:]]*\.cgi\)$/\1/" /etc/apache2/mods-available/mime.conf
-sed -i -e "s/^\([[:space:]]*Options Indexes FollowSymLinks\)$/\1 ExecCGI/" /etc/apache2/apache2.conf
+sed -i -e "s/^\([[:space:]]*Options Indexes FollowSymLinks\)$/\1 ExecCGI Includes/" /etc/apache2/apache2.conf
 ```
 Next, install the contents of the 'client' directory located in this repository directly under /var/www/html/**your_mobile_number** on the server then execute:
 ```
