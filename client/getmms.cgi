@@ -80,7 +80,7 @@ do
 
 	if [ "$ext" = "txt" ]; then
 		#content=$(fold -s -w40 "$f" | sed -e "s/$/<br>/"); content=${content%<br>}
-		content=$(<$f)
+		content=$(echo $(<$f))
 	fi
 
 	if [ "$side" = "xmt" ]; then
