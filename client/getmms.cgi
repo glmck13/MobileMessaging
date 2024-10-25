@@ -121,8 +121,8 @@ do
 		else
 			chat="theirChat"
 		fi
-                paste=${content} paste=${paste//\'/} paste=${paste//\"/}
-                print "<button data-tooltip=\"${from}${tstamp}\" class=\"${chat} ${tiploc}\" onclick=\"cmdlog.innerHTML='${paste}'\">${content}</button><br>"
+		paste=${content} paste=${paste//\'/} paste=${paste//\"/}
+		print "<button data-tooltip=\"${from}${tstamp}\" class=\"${chat} ${tiploc}\" onclick=\"cmdlog.innerHTML='${paste}'\">${content}</button><br>"
 
 	elif [[ "$what" == *image* ]]; then
 		print -- "<img title=\"${from}${tstamp}\" style=\"border-radius: 5%;\" src=\"${PWD#$DOCUMENT_ROOT}/$f\" width=200><br><br>"
