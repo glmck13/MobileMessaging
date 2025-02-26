@@ -1,8 +1,8 @@
 # MobileMessaging
 A collection of utilities and a browser-based client for sending/receiving SMS/MMS messages on Linux using a USB cellular modem
 <p>
-    <a href="https://pbxmyhome.net/cdn/mmsdemo.mp4"><img src="mmspic1.png" height="300"></a>
-    <a href="https://pbxmyhome.net/cdn/mmsdemo.mp4"><img src="mmspic2.png" height="300"></a>
+    <a href="https://pbxmyhome.mckblog.net/cdn/mmsdemo.mp4"><img src="mmspic1.png" height="300"></a>
+    <a href="https://pbxmyhome.mckblog.net/cdn/mmsdemo.mp4"><img src="mmspic2.png" height="300"></a>
 </p>
 
 ***Click on a pic to watch a demo!***
